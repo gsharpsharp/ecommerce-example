@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header>
+            <search>
+            <form>
+                <input name="search" type="search" placeholder="Search">
+                <button>Search</button>
+            </form>
+            </search>
+        </header>
+        <section>
+            <h2>Categories</h2>
+            <ul>
+                {% for category in categories %}
+                <li>
+                    <a href="/products/?category={{ category.slug }}">{{ category.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% block content %}{% endblock %}
+    </body>
+</html>

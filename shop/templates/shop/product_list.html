@@ -1,0 +1,26 @@
+{% extends "shop/base.html" %}
+
+{% load url_for_page %}
+
+{% block content %}
+<h1>Search</h1>
+<p>Showing items {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
+<ul>
+    {% for product in product_list %}
+    <li>
+        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<p>
+{% if page_obj.has_previous %}
+<a href="{% url_for_page 1 %}">First</a>
+<a href="{% url_for_page page_obj.previous_page_number %}">Previous</a>
+{% endif %}
+Page {{ page_obj.number }} of {{ paginator.num_pages }}
+{% if page_obj.has_next %}
+<a href="{% url_for_page page_obj.next_page_number %}">Next</a>
+<a href="{% url_for_page paginator.num_pages %}">Last</a>
+{% endif %}
+</p>
+{% endblock %}
