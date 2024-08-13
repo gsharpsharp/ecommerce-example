@@ -14,16 +14,6 @@
             </form>
             </search>
         </header>
-        <section>
-            <h2>Categories</h2>
-            <ul>
-                {% for category in categories %}
-                <li>
-                    <a href="/products/?category={{ category.slug }}">{{ category.name }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
         {% block content %}{% endblock %}
     </body>
 </html>

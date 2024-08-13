@@ -6,8 +6,14 @@ class ProductCategory(models.Model):
     name = models.CharField()
     slug = models.SlugField()
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return f'/products/?category={self.slug}'
 
 
 class Product(models.Model):
