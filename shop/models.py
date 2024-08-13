@@ -21,7 +21,7 @@ class Product(models.Model):
     name = models.CharField()
     slug = models.SlugField()
     description = models.TextField(blank=True)
-    price = models.IntegerField(default=0) # Prices are in cents
+    price = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
         return self.name

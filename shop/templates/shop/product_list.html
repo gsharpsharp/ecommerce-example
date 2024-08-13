@@ -13,7 +13,7 @@
                     {% if category_slug is not None %}
                     href="/products/"
                     {% endif %}>All</a>
-            <span>({{ page_obj.paginator.count }})</span>
+            <span>({{ product_count }})</span>
         </li>
         {% for category in categories %}
         <li>

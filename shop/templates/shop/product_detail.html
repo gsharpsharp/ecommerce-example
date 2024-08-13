@@ -7,8 +7,12 @@
 <img
         src="{% static 'shop/products/'|add:product.slug|add:'.jpg' %}"
         width="600"
-        height="400"
-        >
+        height="400">
+<p>Price: ${{ product.price }}</p>
+{% if product.description %}
+<h2>Description</h2>
+<p>{{ product.description }}</p>
+{% endif %}
 <h2>Categories</h2>
 <ul>
     {% for category in product.categories.all %}
