@@ -34,6 +34,7 @@
         <article>
             <a href="{{ product.get_absolute_url }}">
                 <h2>{{ product.name }}</h2>
+                <p>${{ product.price }}</p>
                 <img
                         src="{% static 'shop/products/'|add:product.slug|add:'.jpg' %}"
                         width="300"
