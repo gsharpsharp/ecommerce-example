@@ -12,20 +12,16 @@
             <a
                     {% if category_slug is not None %}
                     href="/products/"
-                    {% endif %}
-                    >
-                    All
-            </a>
+                    {% endif %}>All</a>
+            <span>({{ page_obj.paginator.count }})</span>
         </li>
         {% for category in categories %}
         <li>
             <a
                     {% if category.slug != category_slug %}
-                    href="/products/?category={{ category.slug }}"
-                    {% endif %}
-                    >
-                    {{ category.name }}
-            </a>
+                    href="{{ category.get_absolute_url }}"
+                    {% endif %}>{{ category.name }}</a>
+            <span>({{ category.product_set.count }})</span>
         </li>
         {% endfor %}
     </ul>
@@ -41,8 +37,7 @@
                 <img
                         src="{% static 'shop/products/'|add:product.slug|add:'.jpg' %}"
                         width="300"
-                        height="200"
-                        >
+                        height="200">
             </a>
         </article>
     </li>
