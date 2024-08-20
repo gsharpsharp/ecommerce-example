@@ -8,11 +8,18 @@
     <body>
         <header>
             <search>
-            <form method="get" action="/products/">
-                <input name="search" type="search" placeholder="Search">
-                <button>Search</button>
+            <form action="{% url 'shop:product-list' %}" method="get">
+                <input
+                        name="search"
+                        value="{{ request.GET.search }}"
+                        type="search"
+                        placeholder="Search">
+                <button type="submit">Search</button>
             </form>
             </search>
+            <p>
+            <a href="{% url 'shop:cart' %}">Shopping cart</a>
+            </p>
         </header>
         {% block content %}{% endblock %}
     </body>

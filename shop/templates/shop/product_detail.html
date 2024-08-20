@@ -1,11 +1,11 @@
-{% extends "shop/base.html" %}
+{% extends 'shop/base.html' %}
 
 {% load static %}
 
 {% block content %}
 <h1>{{ product.name }}</h1>
 <img
-        src="{% static 'shop/products/'|add:product.slug|add:'.jpg' %}"
+        src="{% static product.get_image_path %}"
         width="600"
         height="400">
 <p>Price: ${{ product.price }}</p>
@@ -21,4 +21,12 @@
     </li>
     {% endfor %}
 </ul>
+<form action="{% url 'shop:add-to-cart' product.slug %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label for="quantity" id="quantity">Quantity:</label>
+        <input id="quantity" name="quantity" value="1" type="number">
+    </p>
+    <button>Add to cart</button>
+</form>
 {% endblock %}

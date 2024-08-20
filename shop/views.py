@@ -4,7 +4,10 @@ from django.contrib.postgres.search import (
     SearchRank,
     SearchVector,
 )
-from django.views import generic
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views import View, generic
+from django.views.generic.base import ContextMixin
 
 from shop.models import Product, ProductCategory
 
@@ -36,10 +39,46 @@ class ProductListView(generic.ListView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['product_count'] = Product.objects.count()
-        data['categories'] = ProductCategory.objects.all()
+        data['categories'] = ProductCategory.objects.all().order_by('name')
         data['category_slug'] = self.request.GET.get('category')
         return data
 
 
 class ProductDetailView(generic.DetailView):
     model = Product
+
+
+class CartView(generic.TemplateView):
+    template_name = 'shop/cart.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        cart = self.request.session.get('cart', {})
+        if cart:
+            data['items'] = [
+                {
+                    'product': product,
+                    'quantity': cart[product.slug],
+                    'price': cart[product.slug] * product.price,
+                } for product in Product.objects.filter(slug__in=cart.keys())
+            ]
+        return data
+
+
+def add_to_cart(request, slug):
+    cart = request.session.setdefault('cart', {})
+    cart[slug] = cart.get(slug, 0) + int(request.POST.get('quantity', 1))
+    request.session['cart'] = cart
+    return HttpResponseRedirect(reverse('shop:cart'))
+
+
+def remove_from_cart(request, slug):
+    cart = request.session.setdefault('cart', {})
+    cart.pop(slug)
+    request.session['cart'] = cart
+    return HttpResponseRedirect(reverse('shop:cart'))
+
+
+def empty_cart(request):
+    del request.session['cart']
+    return HttpResponseRedirect(reverse('shop:cart'))

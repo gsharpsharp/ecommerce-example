@@ -6,9 +6,6 @@ class ProductCategory(models.Model):
     name = models.CharField()
     slug = models.SlugField()
 
-    class Meta:
-        ordering = ['name']
-
     def __str__(self):
         return self.name
 
@@ -28,3 +25,6 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product-detail', kwargs={'slug': self.slug})
+
+    def get_image_path(self):
+        return f'shop/products/{self.slug}.jpg'

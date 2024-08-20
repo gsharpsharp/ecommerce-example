@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Shopping Cart</h1>
+{% if items %}
+<ol>
+    {% for item in items %}
+    <li>
+        <section>
+            <a href="{% url 'shop:product-detail' item.product.slug %}">
+                <h2>{{ item.product.name }}</h2>
+                <img
+                        src="{% static item.product.get_image_path %}"
+                        width="300"
+                        height="200">
+            </a>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: ${{ item.price }}</p>
+            <form
+                    method="post"
+                    action="{% url 'shop:remove-from-cart' item.product.slug %}">
+                {% csrf_token %}
+                <button>Remove from cart</button>
+            </form>
+        </section>
+    </li>
+    {% endfor %}
+</ol>
+<form method="post" action="{% url 'shop:empty-cart' %}">
+    {% csrf_token %}
+    <button>Empty cart</button>
+</form>
+{% else %}
+<p>Your shopping cart is empty.</p>
+{% endif %}
+{% endblock %}
