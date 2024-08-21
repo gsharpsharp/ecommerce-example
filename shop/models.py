@@ -27,4 +27,4 @@ class Product(models.Model):
         return reverse('shop:product-detail', kwargs={'slug': self.slug})
 
     def get_image_path(self):
-        return f'shop/products/{self.slug}.jpg'
+        return f'shop/images/products/{self.slug}.jpg'
