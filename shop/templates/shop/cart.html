@@ -28,6 +28,7 @@
     </li>
     {% endfor %}
 </ol>
+<p>Subtotal: ${{ subtotal }}</p>
 <form method="post" action="{% url 'shop:empty-cart' %}">
     {% csrf_token %}
     <button>Empty cart</button>

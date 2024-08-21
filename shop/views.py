@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.search import (
     SearchQuery,
@@ -54,14 +56,17 @@ class CartView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         cart = self.request.session.get('cart', {})
-        if cart:
-            data['items'] = [
-                {
-                    'product': product,
-                    'quantity': cart[product.slug],
-                    'price': cart[product.slug] * product.price,
-                } for product in Product.objects.filter(slug__in=cart.keys())
-            ]
+        subtotal = Decimal('0.00')
+        for product in Product.objects.filter(slug__in=cart.keys()):
+            item_quantity = cart[product.slug]
+            item_price = item_quantity * product.price
+            subtotal = subtotal + item_price
+            data.setdefault('items', []).append({
+                'product': product,
+                'quantity': item_quantity,
+                'price': item_price,
+            })
+        data['subtotal'] = subtotal
         return data
 
 
