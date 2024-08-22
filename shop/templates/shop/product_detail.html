@@ -25,7 +25,7 @@
     {% csrf_token %}
     <p>
         <label for="quantity" id="quantity">Quantity:</label>
-        <input id="quantity" name="quantity" value="1" type="number">
+        <input id="quantity" name="quantity" value="1" min="1" type="number">
     </p>
     <button>Add to cart</button>
 </form>
