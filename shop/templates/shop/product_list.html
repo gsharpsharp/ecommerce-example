@@ -4,6 +4,12 @@
 
 {% load url_for_page %}
 
+{% block title %}Search | E-Commerce Example{% endblock %}
+
+{% block metadata %}
+<link rel="stylesheet" href="{% static 'shop/styles/product_list.css' %}">
+{% endblock %}
+
 {% block content %}
 <section>
     <h2>Categories</h2>
@@ -28,17 +34,26 @@
 </section>
 <h1>Search</h1>
 <p>Showing items {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
-<ol>
+<ol class="product-list">
     {% for product in product_list %}
     <li>
-        <article>
-            <a href="{{ product.get_absolute_url }}">
-                <h2>{{ product.name }}</h2>
-                <p>${{ product.price }}</p>
+        <article class="product">
+            <a
+                    class="product-link"
+                    href="{{ product.get_absolute_url }}"
+                    aria-labelledby="{{ product.slug }}">
+                <hgroup>
+                    <h2
+                            class="product-name"
+                            id="{{ product.slug }}">{{ product.name }}</h2>
+                    <p class="product-price">${{ product.price }}</p>
+                </hgroup>
                 <img
+                        class="product-image"
                         src="{% static product.get_image_path %}"
                         width="300"
-                        height="200">
+                        height="200"
+                        alt="{{ product.name }}">
             </a>
         </article>
     </li>
