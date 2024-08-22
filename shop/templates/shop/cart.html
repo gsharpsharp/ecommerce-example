@@ -21,8 +21,8 @@
             <p>Quantity: {{ item.quantity }}</p>
             <p>Price: ${{ item.price }}</p>
             <form
-                    method="post"
-                    action="{% url 'shop:remove-from-cart' item.product.slug %}">
+                    action="{% url 'shop:remove-from-cart' item.product.slug %}"
+                    method="post">
                 {% csrf_token %}
                 <button>Remove from cart</button>
             </form>
@@ -31,7 +31,7 @@
     {% endfor %}
 </ol>
 <p>Subtotal: ${{ subtotal }}</p>
-<form method="post" action="{% url 'shop:empty-cart' %}">
+<form action="{% url 'shop:empty-cart' %}" method="post">
     {% csrf_token %}
     <button>Empty cart</button>
 </form>

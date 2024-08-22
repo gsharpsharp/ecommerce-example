@@ -16,7 +16,7 @@ from shop.models import Product, ProductCategory
 
 class ProductListView(generic.ListView):
     model = Product
-    paginate_by = 10
+    paginate_by = 12
 
     def get_queryset(self):
         if 'search' in self.request.GET and self.request.GET['search'] != '':

@@ -11,63 +11,71 @@
 {% endblock %}
 
 {% block content %}
-<section>
-    <h2>Categories</h2>
-    <ul>
-        <li>
-            <a
-                    {% if category_slug is not None %}
-                    href="/products/"
-                    {% endif %}>All</a>
-            <span>({{ product_count }})</span>
-        </li>
-        {% for category in categories %}
-        <li>
-            <a
-                    {% if category.slug != category_slug %}
-                    href="{{ category.get_absolute_url }}"
-                    {% endif %}>{{ category.name }}</a>
-            <span>({{ category.product_set.count }})</span>
-        </li>
-        {% endfor %}
-    </ul>
-</section>
-<h1>Search</h1>
-<p>Showing items {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
-<ol class="product-list">
-    {% for product in product_list %}
-    <li>
-        <article class="product">
-            <a
-                    class="product-link"
-                    href="{{ product.get_absolute_url }}"
-                    aria-labelledby="{{ product.slug }}">
-                <hgroup>
-                    <h2
-                            class="product-name"
-                            id="{{ product.slug }}">{{ product.name }}</h2>
-                    <p class="product-price">${{ product.price }}</p>
-                </hgroup>
-                <img
-                        class="product-image"
-                        src="{% static product.get_image_path %}"
-                        width="300"
-                        height="200"
-                        alt="{{ product.name }}">
-            </a>
-        </article>
-    </li>
-    {% endfor %}
-</ol>
-<p>
-{% if page_obj.has_previous %}
-<a href="{% url_for_page 1 %}">First</a>
-<a href="{% url_for_page page_obj.previous_page_number %}">Previous</a>
-{% endif %}
-Page {{ page_obj.number }} of {{ paginator.num_pages }}
-{% if page_obj.has_next %}
-<a href="{% url_for_page page_obj.next_page_number %}">Next</a>
-<a href="{% url_for_page paginator.num_pages %}">Last</a>
-{% endif %}
-</p>
+<div class="product-list-main-container">
+    <section class="product-list-sidebar">
+        <h2>Categories</h2>
+        <ul>
+            <li>
+                <a
+                        {% if category_slug is not None %}
+                        href="/products/"
+                        {% endif %}>All</a>
+                <span>({{ product_count }})</span>
+            </li>
+            {% for category in categories %}
+            <li>
+                <a
+                        {% if category.slug != category_slug %}
+                        href="{{ category.get_absolute_url }}"
+                        {% endif %}>{{ category.name }}</a>
+                <span>({{ category.product_set.count }})</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    <main class="product-list-main">
+        <h1>Search</h1>
+        {% if product_list %}
+        <p>Showing items {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</p>
+        <ol class="product-list">
+            {% for product in product_list %}
+            <li class="product-container">
+                <article class="product">
+                    <a
+                            class="product-link"
+                            href="{{ product.get_absolute_url }}"
+                            aria-labelledby="{{ product.slug }}">
+                        <hgroup class="product-link-heading">
+                            <h2
+                                    class="product-name"
+                                    id="{{ product.slug }}">{{ product.name }}</h2>
+                            <p class="product-price">${{ product.price }}</p>
+                        </hgroup>
+                        <img
+                                class="product-image"
+                                src="{% static product.get_image_path %}"
+                                width="300"
+                                height="200"
+                                alt="{{ product.name }}">
+                    </a>
+                </article>
+            </li>
+            {% endfor %}
+        </ol>
+        <p>
+        {% if page_obj.has_previous %}
+        <a href="{% url_for_page 1 %}">First</a>
+        <a href="{% url_for_page page_obj.previous_page_number %}">Previous</a>
+        {% endif %}
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+        {% if page_obj.has_next %}
+        <a href="{% url_for_page page_obj.next_page_number %}">Next</a>
+        <a href="{% url_for_page paginator.num_pages %}">Last</a>
+        {% endif %}
+        </p>
+        {% else %}
+        <p>No products matching the specified criteria were found.</p>
+        {% endif %}
+    </main>
+</div>
 {% endblock %}

@@ -9,7 +9,8 @@
 <img
         src="{% static product.get_image_path %}"
         width="600"
-        height="400">
+        height="400"
+        alt="{{ product.name }}">
 <p>Price: ${{ product.price }}</p>
 {% if product.description %}
 <h2>Description</h2>
